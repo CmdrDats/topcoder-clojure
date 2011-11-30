@@ -51,14 +51,7 @@
                       down (delay (get-minimum-spin down-board result newlevel))]
                   (alter queue conj left right up down)
                   (- -1 level))
-
-          )
-         )
-        
-        
-        )
-      )
-  )
+          )))))
 
 (defn get-minimum [board result]
   (dosync (ref-set states #{})
@@ -66,14 +59,13 @@
           )
   (loop [item (first @queue)
          result (force item)]
-    ;(print result)
-    (if (> result -1) result
-        (do 
-          (dosync (ref-set queue (vec (rest @queue))))
-          (recur (first @queue) (force item)))
-        ))
-  
-  )
+    (cond
+     (nil? item) -1
+     (> result -1) result
+     :else (do 
+       (dosync (ref-set queue (vec (rest @queue))))
+       (recur (first @queue) (force item)))
+     )))
 
 (def board1 [ ".o.."
               ,"oooo"
