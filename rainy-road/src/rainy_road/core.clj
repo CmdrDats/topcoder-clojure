@@ -12,6 +12,15 @@
                                                 (if (and (= s1 \W) (= s2 \W)) "NO" "")))]
     (if (> (count unreachable-parts) 0) "NO" "YES")))
 
+(defn alt-reachable
+  "Alternative solution, without mapping to pairs first."
+  [path]
+  (let [reachable-seq (for [idx (range (count (first path)))
+                            :let [s1 (get (first path) idx)
+                                  s2 (get (second path) idx)]]
+                        (if (= (str s1 s2) "WW") "NO" ""))
+        unreachable-parts (filter #(= "NO" %) reachable-seq)]
+    (if (> (count unreachable-parts) 0) "NO" "YES")))
 
 (def path1 [".W.."
             "...."])
