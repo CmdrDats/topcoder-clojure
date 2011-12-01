@@ -22,6 +22,21 @@
         unreachable-parts (filter #(= "NO" %) reachable-seq)]
     (if (> (count unreachable-parts) 0) "NO" "YES")))
 
+(defn another-reachable
+  "Yet another solution. Probably the best in terms of readability and performance"
+  [path]
+  (let [path (apply str (interleave (first path) (second path)))]
+        (loop [pair (take 2 path)
+               more (drop 2 path)]
+          (cond
+           (= (apply str pair) "WW") "NO"
+           (empty? more) "YES"
+           :else (recur (take 2 more) (drop 2 more))
+           )
+          )
+        )
+  )
+
 (def path1 [".W.."
             "...."])
 (println "Path1 is " (is-reachable path1))
